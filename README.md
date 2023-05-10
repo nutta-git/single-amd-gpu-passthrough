@@ -142,8 +142,47 @@ echo "$DATE End of Unbind!"
 6) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:03:00.0***/driver/unbind" 
 7) Edit */bin/vfio-teardown.sh* to the following: 
 ```
+#!/bin/bash
 
-  
+################################# Variables #################################
+
+## Adds current time to var for use in echo for a cleaner log and script ##
+DATE=$(date +"%m/%d/%Y %R:%S :")
+
+################################## Script ###################################
+
+echo "$DATE Beginning of Bind!"
+
+
+#dGPU host bind
+
+#dGPU-VGA
+echo 1 > /sys/bus/pci/devices/0000:03:00.0/remove
+
+#DGPU-AUDIO
+echo 1 > /sys/bus/pci/devices/0000:03:00.1/remove
+echo 1 > /sys/bus/pci/rescan
+
+sleep "1"
+
+#iGPU host bind
+
+#iGPU-VGA
+echo "0000:00:02.0" > /sys/bus/pci/devices/0000:00:02.0/driver/unbind
+echo 1              > /sys/bus/pci/devices/0000:00:02.0/remove
+echo 1              > /sys/bus/pci/rescan
+
+## Unload VFIO-PCI driver ##
+modprobe -r vfio_pci
+modprobe -r vfio_iommu_type1
+modprobe -r vfio
+
+echo "$DATE End of Bind!"
+```
+8) After you have copied this script, change the Bus ID and Vendor ID to yours (refer to Part -8). 
+9) First do the dGPU-VGA, then dGPU-AUDIO, then iGPU-VGA
+10) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:00:02.0***/driver/unbind" 
+ 
   
 
           
