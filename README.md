@@ -5,7 +5,7 @@ simple, single amd gpu passthrough on intel platform (only)
 - OS : Arch linux
 - Knl: linux-zen
 - DE : Plasma (wayland) 
-- GPU: RNDA2  
+- dGPU: RNDA2  
 - CPU: 12th-gen(K) Intel 
 - VT-d and VT-x capable motherboard 
 
@@ -57,7 +57,7 @@ Pass mouse and keyboard to the VM
 *PLANNED*
 
 
-# Part -7 : GPU VBios
+# Part -7 : dGPU VBios
 Warning the following may result in permanent DAMAGE, follow at your own RISK!
 
 1) Find your gpu vbios here and Download it: https://www.techpowerup.com/vgabios/
