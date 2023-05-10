@@ -138,7 +138,7 @@ echo "1002 ab28"    > /sys/bus/pci/drivers/vfio-pci/remove_id
 
 echo "$DATE End of Unbind!"
 ```
-4) After you have copied this script, change the Bus ID and Vendor ID to yours (refer to Part -8). 
+4) Change the Bus ID and Vendor ID to yours (refer to Part -8). 
 5) First do the dGPU-VGA, then dGPU-AUDIO
 6) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:03:00.0***/driver/unbind" 
 7) Edit */bin/vfio-teardown.sh* to the following: 
@@ -180,7 +180,7 @@ modprobe -r vfio
 
 echo "$DATE End of Bind!"
 ```
-8) After you have copied this script, change the Bus ID and Vendor ID to yours (refer to Part -8). 
+8) Change the Bus ID and Vendor ID to yours (refer to Part -8) 
 9) First do the dGPU-VGA, then dGPU-AUDIO, then iGPU-VGA
 10) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:00:02.0***/driver/unbind" 
  
