@@ -73,10 +73,10 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
    ```  
 4) Adding the vbios to the VM
 5) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM
-6) Directory should be: var/lib/libvirt/vgabios/patched.rom
+6) Directory should be: *var/lib/libvirt/vgabios/patched.rom*
           
 # Part -8 : Conversions 
-1) We need to convert the Bus ID and Vender id to the following formart: 
+1) Convert the Bus ID and Vender id to the following formart: 
 
 
   dGPU VGA 
