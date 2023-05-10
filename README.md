@@ -3,6 +3,7 @@ simple, single amd gpu passthrough on intel platform
 
 # Prerequisite
 - OS : Arch linux
+- Knl: linux-zen
 - DE : Plasma (wayland) 
 - GPU: RNDA2  
 - CPU: 12th-gen(K) Intel 
