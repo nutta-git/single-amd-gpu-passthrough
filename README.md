@@ -72,7 +72,34 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
 5) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM
 6) Directory should be: var/lib/libvirt/vgabios/patched.rom
           
-# Part -8 : VM Start-up and Shut-down
+# Part -8 : Conversions 
+1) We need to convert the Bus ID and Vender id to the following formart: 
+  dGPU VGA 
+  ``` 
+      03:00.0   to 0000:03:00.0
+      1002:73ff to 1002 73ff
+  ```
+  dGPU AUDIO
+  ``` 
+      03:00.1   to 0000:03:00.1
+      1002:ab28 to 1002 ab28
+  ```
+  iGPU VGA
+  ``` 
+      00:02.0   to 0000:00:02.0
+      8086:4680 to 8086 4680
+  ```
+  After conversion its should look like this: 
+  ```
+   -VGA      (example) 0000:03:00.0 and 1002 73ff  <- dGPU
+ 
+   -AUDIO    (example) 0000:03:00.1 and 1002 ab28  <- dGPU
+   
+   -VGA      (exmaple) 0000:00:02.0 and 8086 4680  <- iGPU
+```
+  
+  
+
           
           
  
