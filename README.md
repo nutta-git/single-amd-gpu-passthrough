@@ -32,7 +32,8 @@ Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wiki
 
 # Part -4 : Virtual Machine (VM)
 1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/5)-Configuring-Virtual-Machine-Manager
-2) (recommended) Name your VM: win10 
+2) (recommended) Name your VM: **win10** 
+
     This way, we have less scripts to edit in Part -9
 
 # Part -5 : Inputs 
