@@ -38,8 +38,7 @@ Pass mouse and keyboard to the VM
 2) Navigate to /dev/input/by-id/ directory, here we want to find your the name of your  keyboard and mouse
 3) Perform the test provided by the guide and note the device names 
 4) Add the folowing to your VM xml file (replace MOUSE_NAME and KEYBOARD_NAME with the names you found) : 
-
-                              Example from previous link
+                                     Example from previous link
  ```     
       <input type='evdev'>
       <source dev='/dev/input/by-id/MOUSE_NAME'/>
