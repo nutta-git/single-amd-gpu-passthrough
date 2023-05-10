@@ -105,7 +105,7 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
   # Part -9 : Scripts and Startups 
   1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/7)-scripts-&-logfiles
   2) After you have comepleted the instalation of the scripts
-  3) Edit /bin/vfio-startup.sh to the following: 
+  3) Edit */bin/vfio-startup.sh* to the following: 
   ```
   #!/bin/bash
 
@@ -138,8 +138,11 @@ echo "1002 ab28"    > /sys/bus/pci/drivers/vfio-pci/remove_id
 echo "$DATE End of Unbind!"
 ```
 4) After you have copied this script, change the Bus ID and Vendor ID to yours (refer to Part -8). 
-5) First do the dGPU-VGA, then dGPU-Audio
+5) First do the dGPU-VGA, then dGPU-AUDIO
 6) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:03:00.0***/driver/unbind" 
+7) Edit */bin/vfio-teardown.sh* to the following: 
+```
+
   
   
 
