@@ -56,14 +56,14 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
 1) Find your gpu vbios here and Download it: https://www.techpowerup.com/vgabios/
 2) Rename the Vbios file to: patched.rom
 3) Create a Directory to store and use the vbios:
-   '''
+ <code>
           cd ~/Downloads  
           sudo mkdir /var/lib/libvirt/vgabios
           cp ./patched.rom /var/lib/libvirt/vgabios/
           cd /var/lib/libvirt/vgabios/
           sudo chmod -R 660 patched.rom
           sudo chown yourusername:yourusername patched.rom
-    '''      
+   </code>  
 4) Adding the vbios to the VM
 5) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM
 6) Directory should be: var/lib/libvirt/vgabios/patched.rom
