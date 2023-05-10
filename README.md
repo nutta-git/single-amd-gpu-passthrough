@@ -31,7 +31,9 @@ simple, single amd gpu passthrough on intel platform
 Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuration-of-libvirt
 
 # Part -4 : Virtual Machine (VM)
-Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/5)-Configuring-Virtual-Machine-Manager
+1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/5)-Configuring-Virtual-Machine-Manager
+2) (recommended) Name your VM: win10 
+    This way, we have less scripts to edit in Part -9
 
 # Part -5 : Inputs 
 Pass mouse and keyboard to the VM
@@ -99,6 +101,45 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
    
    -VGA      (exmaple) 0000:00:02.0 and 8086 4680  <- iGPU
 ```
+  
+  # Part -9 : Scripts and Startups 
+  1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/7)-scripts-&-logfiles
+  2) After you have comepleted the instalation of the scripts
+  3) Edit /bin/vfio-startup.sh to the following: 
+  ```
+  #!/bin/bash
+
+################################# Variables #################################
+
+## Adds current time to var for use in echo for a cleaner log and script ##
+DATE=$(date +"%m/%d/%Y %R:%S :")
+
+################################## Script ###################################
+
+echo "$DATE Beginning of Unbind!"
+
+## Load VFIO-PCI driver ##
+modprobe vfio
+modprobe vfio_pci
+modprobe vfio_iommu_type1
+
+#dGPU-VGA  host unbind
+echo "1002 73ff"    > /sys/bus/pci/drivers/vfio-pci/new_id
+echo "0000:03:00.0" > /sys/bus/pci/devices/0000:03:00.0/driver/unbind
+echo "0000:03:00.0" > /sys/bus/pci/drivers/vfio-pci/bind
+echo "1002 73ff"    > /sys/bus/pci/drivers/vfio-pci/remove_id
+
+#dGPU-AUDIO host unbind
+echo "1002 ab28"    > /sys/bus/pci/drivers/vfio-pci/new_id
+echo "0000:03:00.1" > /sys/bus/pci/devices/0000:03:00.1/driver/unbind
+echo "0000:03:00.1" > /sys/bus/pci/drivers/vfio-pci/bind
+echo "1002 ab28"    > /sys/bus/pci/drivers/vfio-pci/remove_id
+
+echo "$DATE End of Unbind!"
+```
+4) After you have copied this script, change the Bus ID and Vendor ID to yours (refer to Part -8). 
+5) First do the dGPU-VGA, then dGPU-Audio
+6) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:03:00.0***/driver/unbind" 
   
   
 
