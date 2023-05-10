@@ -75,6 +75,7 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
 # Part -8 : Conversions 
 1) We need to convert the Bus ID and Vender id to the following formart: 
 
+
   dGPU VGA 
   ``` 
       03:00.0   to 0000:03:00.0
