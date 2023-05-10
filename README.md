@@ -1,5 +1,5 @@
 # single-amd-gpu-passthrough
-simple, single amd gpu passthrough on intel platform
+simple, single amd gpu passthrough on intel platform (only)
 
 # Prerequisite
 - OS : Arch linux
@@ -53,7 +53,7 @@ Pass mouse and keyboard to the VM
 ```
 
 # Part -6 : Audio 
-
+*PLANNED*
 
 
 # Part -7 : GPU VBios
@@ -104,7 +104,7 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
   
   # Part -9 : Scripts and Startups 
   1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/7)-scripts-&-logfiles
-  2) After you have comepleted the instalation of the scripts
+  2) After you have completed the installation 
   3) Edit */bin/vfio-startup.sh* to the following: 
   ```
   #!/bin/bash
@@ -183,7 +183,12 @@ echo "$DATE End of Bind!"
 9) First do the dGPU-VGA, then dGPU-AUDIO, then iGPU-VGA
 10) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:00:02.0***/driver/unbind" 
  
-  
+# Enjoy!
+
+
+# Know Issues 
+1) Black screen after Guest(VM) shutdown, 
+   If this is happening, try moving your mouse while the Guest (VM) is shuting down, even through the dark screen until your host starts up (15 to 30 seconds).  
 
           
           
