@@ -3,8 +3,9 @@ simple, single amd gpu passthrough on intel platform
 
 # Prerequisite
 - OS : Arch linux
-- GPU: 6600xt 
-- CPU: 12700k
+- DE : Plasma (wayland) 
+- GPU: RNDA2  
+- CPU: 12th-gen(K) Intel 
 - VT-d and VT-x capable motherboard 
 
 # Part -1 : Motherboard Bios
