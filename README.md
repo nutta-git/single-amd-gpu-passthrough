@@ -109,7 +109,7 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
   3) Edit */bin/vfio-startup.sh* to the following: 
   ```
   #!/bin/bash
-
+#credit: https://www.reddit.com/r/VFIO/comments/z9r8w1/comment/iylch8s/
 ################################# Variables #################################
 
 ## Adds current time to var for use in echo for a cleaner log and script ##
@@ -139,12 +139,13 @@ echo "1002 ab28"    > /sys/bus/pci/drivers/vfio-pci/remove_id
 echo "$DATE End of Unbind!"
 ```
 4) Change the Bus ID and Vendor ID to yours (refer to Part -8). 
-5) First do the dGPU-VGA, then dGPU-AUDIO
-6) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:03:00.0***/driver/unbind" 
+
+   First dGPU-VGA, then dGPU-AUDIO
+6) Be carefull, you will need to change the Bus ID in the file names as well, example: "/sys/bus/pci/devices/***0000:03:00.0***/driver/unbind" 
 7) Edit */bin/vfio-teardown.sh* to the following: 
 ```
 #!/bin/bash
-
+#credit: https://www.reddit.com/r/VFIO/comments/z9r8w1/comment/iylch8s/
 ################################# Variables #################################
 
 ## Adds current time to var for use in echo for a cleaner log and script ##
@@ -180,9 +181,10 @@ modprobe -r vfio
 
 echo "$DATE End of Bind!"
 ```
-8) Change the Bus ID and Vendor ID to yours (refer to Part -8) 
-9) First do the dGPU-VGA, then dGPU-AUDIO, then iGPU-VGA
-10) Be carefull, you need to change the Bus ID in the file names too, example: "/sys/bus/pci/devices/***0000:00:02.0***/driver/unbind" 
+8)  Change the Bus ID and Vendor ID to yours (refer to Part -8) 
+
+     First dGPU-VGA, then dGPU-AUDIO, then iGPU-VGA
+10) Be carefull, you will need to change the Bus ID in the file names as well, example: "/sys/bus/pci/devices/***0000:00:02.0***/driver/unbind" 
  
 # Enjoy!
 
