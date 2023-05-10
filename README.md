@@ -18,13 +18,13 @@ simple, single amd gpu passthrough on intel platform
 3) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/3)-IOMMU-Groups 
   
   Note down the Bus ID and Vendor ID for your GPU(dGPU) and your intergrated GPU (iGPU): 
- 
+ ```
    -VGA      (example) 03:00.0 and 1002:73ff  <- dGPU
  
    -AUDIO    (example) 03:00.1 and 1002:ab28  <- dGPU
    
    -VGA      (exmaple) 00:02.0 and 8086:4680  <- iGPU
-
+```
 # Part -3 : Libvirt and Qemu 
 Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuration-of-libvirt
 
@@ -37,14 +37,17 @@ Pass mouse and keyboard to the VM
 1) Follow the guide: https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Passing_keyboard/mouse_via_Evdev 
 2) Navigate to /dev/input/by-id/ directory, here we want to find your the name of your  keyboard and mouse
 3) Perform the test provided by the guide and note the device names 
-4) Add the folowing to your VM xml file (replace the mouse and keyboard name with what you found) : 
-      
+4) Add the folowing to your VM xml file (replace MOUSE_NAME and KEYBOARD_NAME with the names you found) : 
+
+                              Example from previous link
+ ```     
       <input type='evdev'>
       <source dev='/dev/input/by-id/MOUSE_NAME'/>
     </input>
     <input type='evdev'>
       <source dev='/dev/input/by-id/KEYBOARD_NAME' grab='all' repeat='on' grabToggle='ctrl-ctrl'/>
     </input>
+```
 
 # Part -6 : Audio 
 
