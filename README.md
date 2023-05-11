@@ -4,7 +4,7 @@ simple, single amd gpu passthrough on intel platform (only)
 # Prerequisite
 - OS : Arch linux
 - Knl: linux-zen
-- DE : Plasma (wayland) 
+- DE : Plasma (wayland) (only) 
 - dGPU: RNDA2  
 - CPU: 12th-gen(K) Intel 
 - VT-d and VT-x capable motherboard 
@@ -192,9 +192,7 @@ echo "$DATE End of Bind!"
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
    If this is happening, try moving your mouse while the Guest (VM) is shuting down, even through the dark screen until your host starts up (15 to 30 seconds). 
-2) Host does not boot, after guest VM shutdown,
- 
-  if you constally using (starting and shuting down) VMs in a single session (with out restarting the host),Then disable the iGPU in motherboard bios and remove the iGPU portion in:                                       */bin/vfio-teardown.sh*
+2) If you constally using (starting and shuting down) VMs in a single session (with out restarting the host),Then disable the iGPU in motherboard bios and remove the iGPU portion in:                                       */bin/vfio-teardown.sh*
   
   ```
 #!/bin/bash
@@ -234,7 +232,7 @@ modprobe -r vfio
 
 echo "$DATE End of Bind!"
 ```
-  
+  After the first VM shutdown, the host can't recover with a second second VM shutdown and the display will suspend. Disbaling the iGPU fixes this issue. 
           
           
  
