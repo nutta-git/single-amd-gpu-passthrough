@@ -191,8 +191,49 @@ echo "$DATE End of Bind!"
 
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
-   If this is happening, try moving your mouse while the Guest (VM) is shuting down, even through the dark screen until your host starts up (15 to 30 seconds).  
+   If this is happening, try moving your mouse while the Guest (VM) is shuting down, even through the dark screen until your host starts up (15 to 30 seconds). 
+2) Host VM doesnt not boot, after guest VM shutdown
+  if you constally use (start and shutdown) VMs in a single session (with out restarting the host) Disable the iGPU in motherboard bios and remove the iGPU portion in:                                       */bin/vfio-teardown.sh*
+  
+  ```
+#!/bin/bash
+#credit: https://www.reddit.com/r/VFIO/comments/z9r8w1/comment/iylch8s/
+################################# Variables #################################
 
+## Adds current time to var for use in echo for a cleaner log and script ##
+DATE=$(date +"%m/%d/%Y %R:%S :")
+
+################################## Script ###################################
+
+echo "$DATE Beginning of Bind!"
+
+
+#dGPU host bind
+
+#dGPU-VGA
+echo 1 > /sys/bus/pci/devices/0000:03:00.0/remove
+
+#DGPU-AUDIO
+echo 1 > /sys/bus/pci/devices/0000:03:00.1/remove
+echo 1 > /sys/bus/pci/rescan
+
+#sleep "1"
+
+#iGPU host bind
+
+#iGPU-VGA
+#echo "0000:00:02.0" > /sys/bus/pci/devices/0000:00:02.0/driver/unbind
+#echo 1              > /sys/bus/pci/devices/0000:00:02.0/remove
+#echo 1              > /sys/bus/pci/rescan
+
+## Unload VFIO-PCI driver ##
+modprobe -r vfio_pci
+modprobe -r vfio_iommu_type1
+modprobe -r vfio
+
+echo "$DATE End of Bind!"
+```
+  
           
           
  
