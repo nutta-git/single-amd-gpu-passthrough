@@ -192,8 +192,8 @@ echo "$DATE End of Bind!"
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
    If this is happening, try moving your mouse while the Guest (VM) is shuting down, even through the dark screen until your host starts up (15 to 30 seconds). 
-2) Host VM doesnt not boot, after guest VM shutdown
-  if you constally use (start and shutdown) VMs in a single session (with out restarting the host) Disable the iGPU in motherboard bios and remove the iGPU portion in:                                       */bin/vfio-teardown.sh*
+2) Host does not boot, after guest VM shutdown
+  if you constally using (start and shutdown) VMs in a single session (with out restarting the host) Disable the iGPU in motherboard bios and remove the iGPU portion in:                                       */bin/vfio-teardown.sh*
   
   ```
 #!/bin/bash
