@@ -36,12 +36,7 @@ Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wiki
 
     This way, we have less scripts to edit in Part -9
 
-# Part -5 : Inputs and Outputs 
-Passing USB controllers and Audio onctrollers
-1) Follow: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM#adding-your-gpu-and-your-rom
-2) Instead of passing the GPU, pass through your PCIE groups(every device in your group) that contains your Usb Controller and your Audio Controller
-
-# Part -7 : dGPU VBios
+# Part -5 : dGPU VBios
 Warning the following may result in permanent DAMAGE, follow at your own RISK!
 
 1) Find your gpu vbios here and Download it: https://www.techpowerup.com/vgabios/
@@ -57,9 +52,16 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
    ```  
 4) Adding the vbios to the VM
 5) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM
-6) Directory should be: *var/lib/libvirt/vgabios/patched.rom*
-          
-# Part -8 : Conversions 
+6) Directory should be: *var/lib/libvirt/vgabios/patched.rom
+
+
+# Part -6 : Inputs and Outputs 
+Passing USB controllers and Audio onctrollers
+1) Follow: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM#adding-your-gpu-and-your-rom
+2) Instead of passing the GPU, pass through your PCIE groups(every device in your group) that contains your Usb Controller and your Audio Controller
+
+
+# Part -7 : Conversions 
 1) Convert the Bus ID and Vender id to the following formart: 
 
 
@@ -81,7 +83,7 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
    
 ```
   
-  # Part -9 : Scripts and Startups 
+# Part -8 : Scripts and Startups 
   1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/7)-scripts-&-logfiles
   2) After you have completed the installation 
   3) Edit */bin/vfio-startup.sh* to the following: 
