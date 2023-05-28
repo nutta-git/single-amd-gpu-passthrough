@@ -155,8 +155,8 @@ echo "$DATE End of Bind!"
 ```
 8)  Change the Bus ID and Vendor ID to yours (refer to Part -8) 
 
-     First dGPU-VGA, then dGPU-AUDIO, then iGPU-VGA
-10) Be carefull, you will need to change the Bus ID in the file names as well, example: "/sys/bus/pci/devices/***0000:00:02.0***/driver/unbind" 
+     First dGPU-VGA, then dGPU-AUDIO
+10) Be carefull, you will need to change the Bus ID in the file names as well, example: "/sys/bus/pci/devices/***0000:00:03.00.0***/driver/unbind" 
  
 # Enjoy!
 
