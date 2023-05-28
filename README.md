@@ -13,19 +13,19 @@ simple, single amd gpu passthrough on intel platform (only)
 1) Enable VT-d and VT-x in your motherboards BIOS 
 2) Disable REBAR and 4G decode 
 3) Disable CSM
+4) Disbale iGPU
 
 # Part -2 : Bootloader and IOMMU 
 1) Add the following parameters to your bootloader: intel_iommu=on iommu=pt
 2) Restart 
 3) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/3)-IOMMU-Groups 
   
-  Note down the Bus ID and Vendor ID for your GPU(dGPU) and your intergrated GPU (iGPU): 
+  Note down the Bus ID and Vendor ID for your GPU(dGPU): 
  ```
    -VGA      (example) 03:00.0 and 1002:73ff  <- dGPU
  
    -AUDIO    (example) 03:00.1 and 1002:ab28  <- dGPU
    
-   -VGA      (exmaple) 00:02.0 and 8086:4680  <- iGPU
 ```
 # Part -3 : Libvirt and Qemu 
 Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuration-of-libvirt
@@ -36,26 +36,10 @@ Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wiki
 
     This way, we have less scripts to edit in Part -9
 
-# Part -5 : Inputs 
-Pass mouse and keyboard to the VM
-
-1) Follow the guide: https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Passing_keyboard/mouse_via_Evdev 
-2) Navigate to /dev/input/by-id/ directory, here we want to find your the name of your  keyboard and mouse
-3) Perform the test provided by the guide and note the device names 
-4) Add the folowing to your VM xml file (replace MOUSE_NAME and KEYBOARD_NAME with the names you found) : 
-                                     Example from previous link
- ```     
-      <input type='evdev'>
-      <source dev='/dev/input/by-id/MOUSE_NAME'/>
-    </input>
-    <input type='evdev'>
-      <source dev='/dev/input/by-id/KEYBOARD_NAME' grab='all' repeat='on' grabToggle='ctrl-ctrl'/>
-    </input>
-```
-
-# Part -6 : Audio 
-*PLANNED*
-
+# Part -5 : Inputs and Outputs 
+Passing USB controllers and Audio onctrollers
+1) Follow: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM#adding-your-gpu-and-your-rom
+2) Instead of passing the GPU, pass through your PCIE groups(every device in your group) that contains your Usb Controller and your Audio Controller
 
 # Part -7 : dGPU VBios
 Warning the following may result in permanent DAMAGE, follow at your own RISK!
@@ -89,18 +73,12 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
       03:00.1   to 0000:03:00.1
       1002:ab28 to 1002 ab28
   ```
-  iGPU VGA
-  ``` 
-      00:02.0   to 0000:00:02.0
-      8086:4680 to 8086 4680
-  ```
   After conversion its should look like this: 
   ```
    -VGA      (example) 0000:03:00.0 and 1002 73ff  <- dGPU
  
    -AUDIO    (example) 0000:03:00.1 and 1002 ab28  <- dGPU
    
-   -VGA      (exmaple) 0000:00:02.0 and 8086 4680  <- iGPU
 ```
   
   # Part -9 : Scripts and Startups 
@@ -165,14 +143,8 @@ echo 1 > /sys/bus/pci/devices/0000:03:00.0/remove
 echo 1 > /sys/bus/pci/devices/0000:03:00.1/remove
 echo 1 > /sys/bus/pci/rescan
 
-sleep "1"
-
-#iGPU host bind
-
-#iGPU-VGA
-echo "0000:00:02.0" > /sys/bus/pci/devices/0000:00:02.0/driver/unbind
-echo 1              > /sys/bus/pci/devices/0000:00:02.0/remove
-echo 1              > /sys/bus/pci/rescan
+#Restart display manager
+systemctl restart sddm.service 
 
 ## Unload VFIO-PCI driver ##
 modprobe -r vfio_pci
@@ -192,48 +164,6 @@ echo "$DATE End of Bind!"
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
    If this is happening, try moving your mouse while the Guest (VM) is shuting down, even through the dark screen until your host starts up (15 to 30 seconds). 
-2) If you constally using (starting and shuting down) VMs in a single session (with out restarting the host),Then disable the iGPU in motherboard bios and remove the iGPU portion in:                                       */bin/vfio-teardown.sh*
-  
-  ```
-#!/bin/bash
-#credit: https://www.reddit.com/r/VFIO/comments/z9r8w1/comment/iylch8s/
-################################# Variables #################################
-
-## Adds current time to var for use in echo for a cleaner log and script ##
-DATE=$(date +"%m/%d/%Y %R:%S :")
-
-################################## Script ###################################
-
-echo "$DATE Beginning of Bind!"
-
-
-#dGPU host bind
-
-#dGPU-VGA
-echo 1 > /sys/bus/pci/devices/0000:03:00.0/remove
-
-#DGPU-AUDIO
-echo 1 > /sys/bus/pci/devices/0000:03:00.1/remove
-echo 1 > /sys/bus/pci/rescan
-
-#sleep "1"
-
-#iGPU host bind
-
-#iGPU-VGA
-#echo "0000:00:02.0" > /sys/bus/pci/devices/0000:00:02.0/driver/unbind
-#echo 1              > /sys/bus/pci/devices/0000:00:02.0/remove
-#echo 1              > /sys/bus/pci/rescan
-
-## Unload VFIO-PCI driver ##
-modprobe -r vfio_pci
-modprobe -r vfio_iommu_type1
-modprobe -r vfio
-
-echo "$DATE End of Bind!"
-```
-  After the first VM shutdown, the host can't recover with a second second VM shutdown and the display will suspend. Disbaling the iGPU fixes this issue. 
-          
           
  
 
