@@ -7,6 +7,7 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
 - OS : Arch linux
 - Knl: linux-zen
 - DE : Plasma-Wayland (only)
+- DM : sddm-git (required) 
 - dGPU: RNDA2  
 - CPU: 12th-gen(K) Intel 
 - VT-d and VT-x capable motherboard 
