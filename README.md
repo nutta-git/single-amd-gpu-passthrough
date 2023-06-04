@@ -1,11 +1,12 @@
 # single-amd-gpu-passthrough
-simple, single amd gpu passthrough on intel platform (only)
+Simple, single amd gpu passthrough on intel platform (only).
+
 We will be using some of the components from risingprismtv/single-gpu-passthrough guide; however, simplified it for plasma-wayland
 
 # Prerequisite
 - OS : Arch linux
 - Knl: linux-zen
-- DE : Plasma (wayland) (only) 
+- DE : Plasma-Wayland (only)
 - dGPU: RNDA2  
 - CPU: 12th-gen(K) Intel 
 - VT-d and VT-x capable motherboard 
@@ -21,10 +22,10 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
 2) Restart 
 3) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/3)-IOMMU-Groups 
   
-  Note down the Bus ID for GPU(dGPU): 
+  Note down the Bus ID for GPU: 
  ```
-   -VGA      (example) 03:00.0 and 1002:73ff  <- dGPU
-   -AUDIO    (example) 03:00.1 and 1002:ab28  <- dGPU
+   -VGA      (example) 03:00.0 
+   -AUDIO    (example) 03:00.1 
 ```
 # Part -3 : Libvirt and Qemu 
 Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuration-of-libvirt
