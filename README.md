@@ -19,7 +19,7 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
 4) Disbale iGPU
 
 # Part -2 : Bootloader and IOMMU 
-1) Add the following parameters to your bootloader: intel_iommu=on iommu=pt
+1) Add the following parameters to your bootloader: ```intel_iommu=on iommu=pt```
 2) Restart 
 3) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/3)-IOMMU-Groups 
   
@@ -29,7 +29,7 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
    -AUDIO    (example) 03:00.1 
 ```
 # Part -3 : Libvirt and Qemu 
-Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuration-of-libvirt
+1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuration-of-libvirt
 
 # Part -4 : Virtual Machine (VM)
 1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/5)-Configuring-Virtual-Machine-Manage
