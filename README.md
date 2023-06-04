@@ -48,8 +48,8 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
           sudo chmod -R 660 patched.rom
           sudo chown yourusername:yourusername patched.rom
    ```  
-4) Adding the vbios to the VM
-5) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM
+4) Adding the vbios to the VM by following the guide: 
+https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM
 
 # Part -6 : Inputs and Outputs 
 Passing USB & Audio Controller  
