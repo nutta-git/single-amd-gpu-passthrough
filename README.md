@@ -1,5 +1,6 @@
 # single-amd-gpu-passthrough
 simple, single amd gpu passthrough on intel platform (only)
+We will be using some of the components from risingprismtv/single-gpu-passthrough guide; however, simplified it for plasma-wayland
 
 # Prerequisite
 - OS : Arch linux
@@ -20,23 +21,18 @@ simple, single amd gpu passthrough on intel platform (only)
 2) Restart 
 3) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/3)-IOMMU-Groups 
   
-  Note down the Bus ID and Vendor ID for your GPU(dGPU): 
+  Note down the Bus ID for GPU(dGPU): 
  ```
    -VGA      (example) 03:00.0 and 1002:73ff  <- dGPU
- 
    -AUDIO    (example) 03:00.1 and 1002:ab28  <- dGPU
-   
 ```
 # Part -3 : Libvirt and Qemu 
 Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/4)-Configuration-of-libvirt
 
 # Part -4 : Virtual Machine (VM)
-1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/5)-Configuring-Virtual-Machine-Manager
-2) (recommended) Name your VM: **win10** 
+1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/5)-Configuring-Virtual-Machine-Manage
 
-    This way, we have less scripts to edit in Part -9
-
-# Part -5 : dGPU VBios
+# Part -5 : dGPU VBios and Binding
 Warning the following may result in permanent DAMAGE, follow at your own RISK!
 
 1) Find your gpu vbios here and Download it: https://www.techpowerup.com/vgabios/
@@ -52,120 +48,23 @@ Warning the following may result in permanent DAMAGE, follow at your own RISK!
    ```  
 4) Adding the vbios to the VM
 5) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM
-6) Directory should be: *var/lib/libvirt/vgabios/patched.rom
-
 
 # Part -6 : Inputs and Outputs 
-Passing USB controllers and Audio onctrollers
+Passing USB & Audio Controller  
+
 1) Follow: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM#adding-your-gpu-and-your-rom
 2) Instead of passing the GPU, pass through your PCIE groups(every device in your group) that contains your Usb Controller and your Audio Controller
 
+# Part -7 : Disable Sleep and Suspend
+Prevent Host from sleeping or suspending
 
-# Part -7 : Conversions 
-1) Convert the Bus ID and Vender id to the following formart: 
-
-
-  dGPU VGA 
-  ``` 
-      03:00.0   to 0000:03:00.0
-      1002:73ff to 1002 73ff
-  ```
-  dGPU AUDIO
-  ``` 
-      03:00.1   to 0000:03:00.1
-      1002:ab28 to 1002 ab28
-  ```
-  After conversion its should look like this: 
-  ```
-   -VGA      (example) 0000:03:00.0 and 1002 73ff  <- dGPU
- 
-   -AUDIO    (example) 0000:03:00.1 and 1002 ab28  <- dGPU
-   
-```
+1) With Plasma open *System-Settings*
+2) Travel to *Power Management --> Engergy Saving* 
+3) Uncheck *Suspend session*
   
-# Part -8 : Scripts and Startups 
-  1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/7)-scripts-&-logfiles
-  2) After you have completed the installation 
-  3) Edit */bin/vfio-startup.sh* to the following: 
-  ```
-  #!/bin/bash
-#credit: https://www.reddit.com/r/VFIO/comments/z9r8w1/comment/iylch8s/
-################################# Variables #################################
-
-## Adds current time to var for use in echo for a cleaner log and script ##
-DATE=$(date +"%m/%d/%Y %R:%S :")
-
-################################## Script ###################################
-
-echo "$DATE Beginning of Unbind!"
-
-## Load VFIO-PCI driver ##
-modprobe vfio
-modprobe vfio_pci
-modprobe vfio_iommu_type1
-
-#dGPU-VGA  host unbind
-echo "1002 73ff"    > /sys/bus/pci/drivers/vfio-pci/new_id
-echo "0000:03:00.0" > /sys/bus/pci/devices/0000:03:00.0/driver/unbind
-echo "0000:03:00.0" > /sys/bus/pci/drivers/vfio-pci/bind
-echo "1002 73ff"    > /sys/bus/pci/drivers/vfio-pci/remove_id
-
-#dGPU-AUDIO host unbind
-echo "1002 ab28"    > /sys/bus/pci/drivers/vfio-pci/new_id
-echo "0000:03:00.1" > /sys/bus/pci/devices/0000:03:00.1/driver/unbind
-echo "0000:03:00.1" > /sys/bus/pci/drivers/vfio-pci/bind
-echo "1002 ab28"    > /sys/bus/pci/drivers/vfio-pci/remove_id
-
-echo "$DATE End of Unbind!"
-```
-4) Change the Bus ID and Vendor ID to yours (refer to Part -8). 
-
-   First dGPU-VGA, then dGPU-AUDIO
-6) Be carefull, you will need to change the Bus ID in the file names as well, example: "/sys/bus/pci/devices/***0000:03:00.0***/driver/unbind" 
-7) Edit */bin/vfio-teardown.sh* to the following: 
-```
-#!/bin/bash
-#credit: https://www.reddit.com/r/VFIO/comments/z9r8w1/comment/iylch8s/
-################################# Variables #################################
-
-## Adds current time to var for use in echo for a cleaner log and script ##
-DATE=$(date +"%m/%d/%Y %R:%S :")
-
-################################## Script ###################################
-
-echo "$DATE Beginning of Bind!"
-
-
-#dGPU host bind
-
-#dGPU-VGA
-echo 1 > /sys/bus/pci/devices/0000:03:00.0/remove
-
-#DGPU-AUDIO
-echo 1 > /sys/bus/pci/devices/0000:03:00.1/remove
-echo 1 > /sys/bus/pci/rescan
-
-#Restart display manager
-systemctl restart sddm.service 
-
-## Unload VFIO-PCI driver ##
-modprobe -r vfio_pci
-modprobe -r vfio_iommu_type1
-modprobe -r vfio
-
-echo "$DATE End of Bind!"
-```
-8)  Change the Bus ID and Vendor ID to yours (refer to Part -8) 
-
-     First dGPU-VGA, then dGPU-AUDIO
-10) Be carefull, you will need to change the Bus ID in the file names as well, example: "/sys/bus/pci/devices/***0000:00:03.00.0***/driver/unbind" 
- 
 # Enjoy!
-
 
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
    If this is happening, try moving your mouse while the Guest (VM) is shuting down, even through the dark screen until your host starts up (15 to 30 seconds). 
           
- 
-
