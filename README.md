@@ -7,7 +7,7 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
 - OS : Arch linux
 - Knl: linux-zen
 - DE : Plasma-Wayland (only)
-- DM : sddm-git (required) 
+- DM : Anything other than sddm (required) 
 - dGPU: RNDA2  
 - CPU: Intel 
 - VT-d and VT-x capable motherboard 
@@ -68,5 +68,5 @@ Prevent Host from sleeping or suspending
 
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
-   If this is happening, try moving your mouse while the Guest (VM) is shuting down, even through the dark screen until your host starts up (15 to 30 seconds). 
+   As far as I can tell, this is caused by SDDM (the display manager) failing to start properly. Using lighdm has solved this for me. 
           
