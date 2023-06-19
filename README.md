@@ -16,7 +16,6 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
 1) Enable VT-d and VT-x in your motherboards BIOS 
 2) Disable REBAR and 4G decode 
 3) Disable CSM
-4) Disbale iGPU
 
 # Part -2 : Bootloader and IOMMU 
 1) Add the following parameters to your bootloader: ```intel_iommu=on iommu=pt```
@@ -57,16 +56,28 @@ Passing USB & Audio Controller
 1) Follow: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM#adding-your-gpu-and-your-rom
 2) Instead of passing the GPU, pass through your PCIE groups(every device in your group) that contains your Usb Controller and your Audio Controller
 
-# Part -7 : Disable Sleep and Suspend
-Prevent Host from sleeping or suspending
+# Part -7 : Scripts
+Scripts to prevent host from sleeping and etc.  
 
-1) With Plasma open *System-Settings*
-2) Travel to *Power Management --> Engergy Saving* 
-3) Uncheck *Suspend session*
+1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/7)-scripts-&-logfiles
+2) Edit /bin/vfio-startup.sh to look like the following:
+```
+    set -x
+    killall kwin_wayland
+    systemctl stop lightdm.service
+```
+3) Edit /bin/vfio-teardown.sh to look like the following: 
+```
+  set -x
+  systemctl restart lightdm.service
+```
+4) Edit /etc/libvirt/hooks/qemu to change the name of the default VM name to match the one you made. 
+
+
   
 # Enjoy!
 
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
-   As far as I can tell, this is caused by SDDM (the display manager) failing to start properly. Using lighdm has solved this for me. 
+   As far as I can tell, this is caused by SDDM (the display manager) failing to start properly. Using lighdm has solved. 
           
