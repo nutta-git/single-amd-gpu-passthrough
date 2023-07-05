@@ -1,14 +1,14 @@
 # single-amd-gpu-passthrough
-Simple, single amd gpu passthrough on intel platform (only).
+Simple, single amd gpu passthrough on intel platform.
 
 We will be using some of the components from risingprismtv/single-gpu-passthrough guide; however, simplified it for plasma-wayland
 
 # Prerequisite
 - OS : Arch linux
-- Knl: linux-zen
-- DE : Plasma-Wayland (only)
-- DM : Anything other than sddm (required) 
-- dGPU: RNDA2  
+- Knl: Linux-zen
+- DE : Plasma-wayland (only)
+- DM : Lightdm
+- dGPU: Rdna2  
 - CPU: Intel 
 - VT-d and VT-x capable motherboard 
 
