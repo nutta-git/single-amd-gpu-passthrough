@@ -78,7 +78,7 @@ Scripts to prevent host from sleeping and etc.
 # Recommendation
 1) CPU Performace Tuning,
    https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#CPU_pinning
-2) Potential Anti-Cheat Help (not tested, use at your own risk)
+2) Potential Anti-Cheat Help, Libvirt Part Only (not tested, use at your own risk)
    https://docs.vrchat.com/docs/using-vrchat-in-a-virtual-machine
 
 # Know Issues 
