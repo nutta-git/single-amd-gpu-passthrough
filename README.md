@@ -4,12 +4,11 @@ Simple, single amd gpu passthrough on intel platform.
 We will be using some of the components from risingprismtv/single-gpu-passthrough guide; however, simplified it for plasma-wayland
 
 # Prerequisite
-- OS : Arch linux
-- Knl: Linux-zen
-- DE : Plasma-wayland (only)
-- DM : Lightdm
-- dGPU: Rdna2  
-- CPU: Intel 
+- OS : arch linux
+- DE : plasma-wayland (only)
+- DM : lightdm
+- dGPU: rdna2  
+- CPU: intel 
 - VT-d and VT-x capable motherboard 
 
 # Part -1 : Motherboard Bios
