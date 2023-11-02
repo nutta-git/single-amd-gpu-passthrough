@@ -5,8 +5,9 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
 
 # Prerequisite
 - OS : arch linux
+- Knl: 6.6+
 - DE : plasma-wayland (only)
-- DM : lightdm
+- DM : sddm
 - dGPU: rdna2  
 - CPU: intel 
 - VT-d and VT-x capable motherboard 
@@ -83,5 +84,6 @@ Scripts to prevent host from sleeping and etc.
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
    As far as I can tell, this is caused by SDDM (the display manager) failing to start properly, use lightdm instead.
+   Its better to use https://gitlab.com/risingprismtv/single-gpu-passthrough for x11 based apps (lightdm and plasma) 
 
           
