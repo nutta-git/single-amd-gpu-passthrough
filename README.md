@@ -63,11 +63,11 @@ Scripts to prevent host from sleeping and etc.
 2) Edit usr/local/bin/vfio-startup.sh to look like the following:
 ```
     killall kwin_wayland
-    systemctl stop lightdm.service
+    systemctl stop sddm.service
 ```
 3) Edit usr/local/bin/vfio-teardown.sh to look like the following: 
 ```
-  systemctl restart lightdm.service
+  systemctl restart sddm.service
 ```
 4) Edit /etc/libvirt/hooks/qemu to change the name of the default VM name to match yours. 
 
