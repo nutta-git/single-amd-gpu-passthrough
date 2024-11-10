@@ -5,7 +5,7 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
 
 # Prerequisite
 - OS : arch linux
-- Knl: 6.6+
+- Knl: 6.11+
 - DE : plasma-wayland (only)
 - DM : sddm
 - dGPU: rdna2  
@@ -14,7 +14,7 @@ We will be using some of the components from risingprismtv/single-gpu-passthroug
 
 # Part -1 : Motherboard Bios
 1) Enable VT-d and VT-x in your motherboards BIOS 
-2) Disable REBAR and 4G Decode 
+2) Disable REBAR and 4G Decode (IMPORTANT) 
 3) Disable CSM
 
 # Part -2 : Bootloader and IOMMU 
@@ -54,20 +54,22 @@ https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the
 Passing USB & Audio Controller  
 
 1) Follow: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/8)-Attaching-the-GPU-to-your-VM#adding-your-gpu-and-your-rom
-2) Instead of passing the GPU, pass-through your PCIE groups(every device in your group) for your Usb and Audio Controller
+2) Instead of passing the GPU, pass-through your PCIE group(every device in your group) for your Usb and Audio Controller
 
 # Part -7 : Scripts
 Scripts to prevent host from sleeping and etc.  
 
 1) Follow the guide: https://gitlab.com/risingprismtv/single-gpu-passthrough/-/wikis/7)-scripts-&-logfiles
-2) Edit usr/local/bin/vfio-startup.sh to look like the following:
+2) Edit /usr/local/bin/vfio-startup to look like the following:
 ```
-    killall kwin_wayland
-    systemctl stop sddm.service
+#!/bin/bash
+killall kwin_wayland
+systemctl stop sddm.service
 ```
-3) Edit usr/local/bin/vfio-teardown.sh to look like the following: 
+3) Edit usr/local/bin/vfio-teardown to look like the following: 
 ```
-  systemctl restart sddm.service
+#!/bin/bash
+systemctl restart sddm.service
 ```
 4) Edit /etc/libvirt/hooks/qemu to change the name of the default VM name to match yours. 
 
@@ -75,7 +77,7 @@ Scripts to prevent host from sleeping and etc.
   
 # Enjoy!
 
-# Recommendation
+# Recommendation (Optional) 
 1) CPU Performace Tuning,
    https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#CPU_pinning
 2) Potential Anti-Cheat Help, Libvirt Part Only (not tested, use at your own risk)
@@ -83,7 +85,6 @@ Scripts to prevent host from sleeping and etc.
 
 # Know Issues 
 1) Black screen after Guest(VM) shutdown, 
-   As far as I can tell, this is caused by SDDM (the display manager) failing to start properly, use lightdm instead.
-   Its better to use https://gitlab.com/risingprismtv/single-gpu-passthrough for x11 based apps (lightdm and plasma) 
+   As far as I can tell, this is caused by resizeable bar on amdgpu.  
 
           
